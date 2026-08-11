@@ -6,12 +6,6 @@ This repository contains the simulation source code for **collision avoidance in
 
 ## Paper
 
-**Collision Avoidance for Fixed-wing UAV Flocking via Finite-time Velocity Obstacle-based Control Barrier Function**
-
-Chanyong Lee\*, Donghyuck Lee\*, Cheolhyeon Kwon (\*co-first authors)
-
-High-assurance Mobility Control Laboratory (HMCL), Ulsan National Institute of Science and Technology (UNIST)
-
 Under review, will be updated later.
 
 ---
