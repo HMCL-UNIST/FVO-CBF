@@ -22,7 +22,9 @@ Simulation source code for collision avoidance in fixed-wing UAV flocking via a 
 | `fvo_cbf_desired/` | `R = 60, 70, 80, 90, 100 m` | `N = 15`, `Ds = 40 m` |
 | `fvo_cbf_critical/` | `Ds = 40, 50, 60, 70, 80 m` | `N = 15`, `R = 60 m` |
 
-100 Monte Carlo trials per case per method (2,500 simulations per group).
+100 Monte Carlo trials per case per method (5 cases × 5 methods × 100 = 2,500 runs per group).
+
+> **Note on `fvo_cbf_desired` case ids.** The folder names are offset from the values they hold: `case0_d50` has `desired_distance = 60`, `case1_d60` has `70`, and so on through `case4_d90` with `100`. The values in `cases.json` are authoritative; the names are legacy labels kept so the committed `initial_conditions/` stay valid.
 
 ## Setup
 
@@ -34,6 +36,10 @@ pip install numpy scipy matplotlib daqp jupyter
 git clone https://github.com/HMCL-UNIST/Finite-time-Velocity-Obstacle-based-Control-Barrier-Function.git
 cd Finite-time-Velocity-Obstacle-based-Control-Barrier-Function/fvo_cbf_agent
 ```
+
+`numpy`, `scipy`, `matplotlib`, and `daqp` are the only third-party packages the code actually imports, plus `jupyter` to run the notebooks.
+
+`environment.yml` is a full export of the original Linux development environment, kept for exact reproduction on Linux only — it pins `linux-64` packages and will not solve on Windows or macOS. Use the `pip install` line above on those platforms.
 
 ## Run
 
@@ -50,18 +56,29 @@ python run_agent_win.py                      # in fvo_cbf_agent/
 jupyter notebook summarize.ipynb
 ```
 
-The runners are cross-platform despite the `_win` suffix, and are the recommended entry point — they pre-create the output directories and print a per-case feasibility summary. `.sh` alternatives are provided but do not create the directories.
+The `run_*_win.py` runners are cross-platform despite the `_win` suffix — they launch jobs via `sys.executable` and build paths with `os.path.join`, so they run unchanged on Linux and macOS. They are the recommended entry point: they pre-create `logs/` and every `result/<case_id>/<method>/`, dispatch all 25 jobs throttled by `MAX_PARALLEL`, print a per-case feasibility and failure-reason summary as each case finishes, and auto-run `summarize.ipynb` at the end.
 
-Initial conditions used in the paper are already committed under `initial_conditions/`. Run `build_inital_condition.ipynb` only to generate a fresh random set (no fixed seed, so results will differ slightly).
+`.sh` alternatives are provided. They also run `summarize.ipynb`, but they create only `logs/` — not `result/<case_id>/<method>/` — and they run cases sequentially, with the 5 methods parallel within a case, rather than throttling all 25 jobs at once. If you use them, create the result directories first:
+
+```bash
+for c in $(python3 -c "import json;print(' '.join(x['case_id'] for x in json.load(open('cases.json'))))"); do
+    mkdir -p result/$c/{vo,fvo,ho,ma,nominal}
+done
+```
+
+Initial conditions used in the paper are already committed under `initial_conditions/`. Run `build_inital_condition.ipynb` only to generate a fresh random set — no seed is fixed anywhere, so regenerating produces different trials and different statistics.
 
 ## Output
 
 ```
 result/<case_id>/<method>/<method>_simulation_data.pkl
+logs/<case_id>_<method>.log
 logs/summary_<timestamp>.txt
 ```
 
-Each pickle holds, per trial: state and control histories, minimum inter-vehicle distance, minimum CBF value, QP solve times, feasibility flag, failure reason.
+Each pickle is a dict of per-trial lists: full state history, applied and nominal control histories, minimum and maximum inter-vehicle distance histories, minimum CBF value history, QP wall time and pure DAQP solve time, initial and final position/velocity standard deviations, the feasibility flag, and the failure reason and time.
+
+`summarize.ipynb` writes eight tables in order: feasibility, failure-reason breakdown, totals per method, position std, velocity std, control deviation `|u_qp - u_nom|`, DAQP solve time (mean / p95 / max), and the overall nominal baseline. Failure reasons are `ok`, `qp_infeasible`, `qp_iter_limit`, `qp_time_limit`, `forward_invariance_fail`, and `collision`.
 
 ## Options
 
@@ -72,9 +89,18 @@ Top of `run_<group>_win.py`:
 - `METHODS` — comment out entries to run a subset
 - `RUN_SUMMARY = False` — skip the automatic summary
 
-Simulation parameters live in `runtime_params.ipynb`; case and CBF parameters (`V_CONST = 20 m/s`, class-K gains, `CASES`) in `build_inital_condition.ipynb`. Sampling time (`0.05 s`), terminal time (`600 s`), and turn-rate limit (`0.35 rad/s`) are set inside `run_multi_agent_simulation()` in each `src/*.ipynb`.
+Setup cell of `summarize.ipynb`:
+
+- `CASE_FILTER = 'case0_N5'` — summarize a single case instead of all
+
+`runtime_params.ipynb` writes `beta`, `lamda`, `k1`, `k2`, `qp_max_iter`, `qp_eps_abs`, `qp_time_limit`, and `fi_threshold`. `build_inital_condition.ipynb` writes `STATE_DIM`, `V_CONST`, `class_k1`, `class_k2`, `k_vo`, `margin`, `test_case_num`, the per-case `parameter/<case_id>/` values, `initial_conditions/<case_id>/initial.npy`, and `cases.json`. Edit its `CASES` list to define a different sweep, then Run All.
+
+`class_k2` is used only by `ho` and `ma`; `k_vo` only by `ma`; `nominal_flocking` loads no CBF or QP parameters at all.
+
+Sampling time (`DT_CONTROL = 0.05 s`), terminal time (`T_FINAL = 600 s`), and turn-rate limit (`u_limit = 0.35 rad/s`) are hard-coded inside `run_multi_agent_simulation()` in all five `src/*.ipynb`.
 
 ## Notes
 
-- `ModuleNotFoundError: cvxpy` — legacy import in some `src/*.ipynb`; unused since all QPs use DAQP. Delete the line or `pip install cvxpy`.
-- `RuntimeError: CASE_ID env var must be set` — `src/*.ipynb` are not standalone; launch them through a runner.
+- `ModuleNotFoundError: cvxpy` — legacy import in `src/vo_cbf_part.ipynb`, `src/ho_cbf_part.ipynb`, and `src/ma_cbf_vo_part.ipynb`; unused, since every QP is solved with DAQP. Delete the line or `pip install cvxpy`.
+- `RuntimeError: CASE_ID env var must be set` — the `src/*.ipynb` notebooks are not standalone. Launch them through a runner, or directly: `python run_one_method.py src/fvo_cbf_part.ipynb case0_N5` (the script sets `CASE_ID` from its second argument).
+- `fvo_cbf_agent/parameter/` contains leftover case folders (`case0_N15`, `case5_N30` … `case9_N50`, `case500_N15`, `case999_N15`, `case1000_N15`) that are not in `cases.json`. The runners ignore them; they can be deleted.
