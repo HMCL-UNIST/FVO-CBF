@@ -1,0 +1,32 @@
+[
+  {
+    "case_id": "case0_c40",
+    "N_AGENTS": 15,
+    "desired_distance": 60,
+    "critical_distance": 40
+  },
+  {
+    "case_id": "case1_c50",
+    "N_AGENTS": 15,
+    "desired_distance": 60,
+    "critical_distance": 50
+  },
+  {
+    "case_id": "case2_c60",
+    "N_AGENTS": 15,
+    "desired_distance": 60,
+    "critical_distance": 60
+  },
+  {
+    "case_id": "case3_c70",
+    "N_AGENTS": 15,
+    "desired_distance": 60,
+    "critical_distance": 70
+  },
+  {
+    "case_id": "case4_c80",
+    "N_AGENTS": 15,
+    "desired_distance": 60,
+    "critical_distance": 80
+  }
+]
