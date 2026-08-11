@@ -82,9 +82,3 @@ Setup cell of `summarize.ipynb`:
 `class_k2` is used only by `ho` and `ma`; `k_vo` only by `ma`; `nominal_flocking` loads no CBF or QP parameters at all.
 
 Sampling time (`DT_CONTROL = 0.05 s`), terminal time (`T_FINAL = 600 s`), and turn-rate limit (`u_limit = 0.35 rad/s`) are hard-coded inside `run_multi_agent_simulation()` in all five `src/*.ipynb`.
-
-## Notes
-
-- `ModuleNotFoundError: cvxpy` — legacy import in `src/vo_cbf_part.ipynb`, `src/ho_cbf_part.ipynb`, and `src/ma_cbf_vo_part.ipynb`; unused, since every QP is solved with DAQP. Delete the line or `pip install cvxpy`.
-- `RuntimeError: CASE_ID env var must be set` — the `src/*.ipynb` notebooks are not standalone. Launch them through a runner, or directly: `python run_one_method.py src/fvo_cbf_part.ipynb case0_N5` (the script sets `CASE_ID` from its second argument).
-- `fvo_cbf_agent/parameter/` contains leftover case folders (`case0_N15`, `case5_N30` … `case9_N50`, `case500_N15`, `case999_N15`, `case1000_N15`) that are not in `cases.json`. The runners ignore them; they can be deleted.
