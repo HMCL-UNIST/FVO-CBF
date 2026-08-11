@@ -36,41 +36,6 @@ Each group runs **100 Monte Carlo trials per case per method** (5 cases × 5 met
 
 ---
 
-## Repository Structure
-
-```
-Finite-time-Velocity-Obstacle-based-Control-Barrier-Function/
-├── fvo_cbf_agent/            # Group A: number-of-UAVs sweep
-├── fvo_cbf_desired/          # Group B: desired-relative-distance sweep
-├── fvo_cbf_critical/         # Group C: minimum-safe-distance sweep
-└── README.md
-```
-
-Every group shares the same internal layout:
-
-```
-fvo_cbf_<group>/
-├── src/
-│   ├── fvo_cbf_part.ipynb        # Proposed FVO-CBF
-│   ├── vo_cbf_part.ipynb         # VO-CBF baseline
-│   ├── ma_cbf_vo_part.ipynb      # MA-VO-CBF baseline
-│   ├── ho_cbf_part.ipynb         # HOCBF baseline
-│   └── nominal_flocking.ipynb    # ACS flocking only
-├── parameter/                    # Shared *.npy + per-case parameter/<case_id>/
-├── initial_conditions/           # Pre-generated initial states (committed)
-├── cases.json                    # Case manifest consumed by the runner
-├── runtime_params.ipynb          # ACS + QP solver parameters -> parameter/*.npy
-├── build_inital_condition.ipynb  # Regenerates parameter/<case_id>/ and initial_conditions/
-├── run_one_method.py             # Executes one (case, method) job
-├── run_<group>_win.py            # Batch runner (recommended)
-├── run_<group>.sh                # Batch runner (bash alternative)
-├── summarize.ipynb               # Aggregates result/ into the paper tables
-├── result/                       # Created at runtime: result/<case_id>/<method>/*.pkl
-└── logs/                         # Created at runtime: per-job logs + summary_<ts>.txt
-```
-
----
-
 ## Getting Started
 
 ### Prerequisites
@@ -82,8 +47,6 @@ conda create -n fvo python=3.11
 conda activate fvo
 pip install numpy scipy matplotlib daqp jupyter
 ```
-
-The quadratic program in the safety-critical control is solved with the **DAQP** active-set solver.
 
 ### Installation
 
