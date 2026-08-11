@@ -50,16 +50,6 @@ python run_agent_win.py                      # in fvo_cbf_agent/
 jupyter notebook summarize.ipynb
 ```
 
-The `run_*_win.py` runners are cross-platform despite the `_win` suffix — they launch jobs via `sys.executable` and build paths with `os.path.join`, so they run unchanged on Linux and macOS. They are the recommended entry point: they pre-create `logs/` and every `result/<case_id>/<method>/`, dispatch all 25 jobs throttled by `MAX_PARALLEL`, print a per-case feasibility and failure-reason summary as each case finishes, and auto-run `summarize.ipynb` at the end.
-
-`.sh` alternatives are provided. They also run `summarize.ipynb`, but they create only `logs/` — not `result/<case_id>/<method>/` — and they run cases sequentially, with the 5 methods parallel within a case, rather than throttling all 25 jobs at once. If you use them, create the result directories first:
-
-```bash
-for c in $(python3 -c "import json;print(' '.join(x['case_id'] for x in json.load(open('cases.json'))))"); do
-    mkdir -p result/$c/{vo,fvo,ho,ma,nominal}
-done
-```
-
 Initial conditions used in the paper are already committed under `initial_conditions/`. Run `build_inital_condition.ipynb` only to generate a fresh random set — no seed is fixed anywhere, so regenerating produces different trials and different statistics.
 
 ## Output
