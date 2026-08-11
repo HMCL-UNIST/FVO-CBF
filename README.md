@@ -24,8 +24,6 @@ Simulation source code for collision avoidance in fixed-wing UAV flocking via a 
 
 100 Monte Carlo trials per case per method (5 cases × 5 methods × 100 = 2,500 runs per group).
 
-> **Note on `fvo_cbf_desired` case ids.** The folder names are offset from the values they hold: `case0_d50` has `desired_distance = 60`, `case1_d60` has `70`, and so on through `case4_d90` with `100`. The values in `cases.json` are authoritative; the names are legacy labels kept so the committed `initial_conditions/` stay valid.
-
 ## Setup
 
 ```bash
