@@ -35,10 +35,6 @@ git clone https://github.com/HMCL-UNIST/Finite-time-Velocity-Obstacle-based-Cont
 cd Finite-time-Velocity-Obstacle-based-Control-Barrier-Function/fvo_cbf_agent
 ```
 
-`numpy`, `scipy`, `matplotlib`, and `daqp` are the only third-party packages the code actually imports, plus `jupyter` to run the notebooks.
-
-`environment.yml` is a full export of the original Linux development environment, kept for exact reproduction on Linux only — it pins `linux-64` packages and will not solve on Windows or macOS. Use the `pip install` line above on those platforms.
-
 ## Run
 
 ```bash
