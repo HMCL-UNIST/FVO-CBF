@@ -14,8 +14,6 @@ The ACS flocking control law (Section III.C) generates nominal inputs that pursu
 
 https://github.com/user-attachments/assets/2482b74e-5fb9-4f25-b5ae-66b8550d1cbb
 
-<p align="center"><i>Comparison between the nominal ACS flocking control and the proposed FVO-CBF-based safety-critical control (N = 15).</i></p>
-
 ## 📝 Citation
 
 Citation will be updated upon acceptance.
