@@ -10,9 +10,24 @@ Safety-critical control framework for inter-vehicle collision avoidance in fixed
 
 The ACS flocking control law (Section III.C) generates nominal inputs that pursue the flocking objectives but may induce collisions. The proposed FVO-CBF-based safety-critical controller (Section IV.C) minimally modifies these inputs to guarantee collision-free flocking under the strictly positive velocity and turn-rate constraints of fixed-wing UAVs.
 
+## 🎥 Video Demonstration
+
+<!-- Replace VIDEO_ID below with the 11-character ID from your YouTube URL.
+     https://www.youtube.com/watch?v=dQw4w9WgXcQ  ->  VIDEO_ID = dQw4w9WgXcQ
+     https://youtu.be/dQw4w9WgXcQ                 ->  VIDEO_ID = dQw4w9WgXcQ
+     The ID appears twice: once in href, once in img src. -->
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=VIDEO_ID">
+    <img src="https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg" width="70%" alt="Video demonstration of collision-free flocking">
+  </a>
+</p>
+
+<p align="center"><i>Click the thumbnail to watch on YouTube.</i></p>
+
 ## Citation
 
-TBD
+Citation will be updated upon acceptance.
 
 ## 📂 Project Structure
 
@@ -69,7 +84,7 @@ python run_agent_win.py                      # in fvo_cbf_agent/
 jupyter notebook summarize.ipynb
 ```
 
-The initial conditions used in the paper are already committed under `initial_conditions/`. Run `build_inital_condition.ipynb` only to generate a fresh random set — no seed is fixed anywhere, so regenerating produces different trials and different statistics.
+The initial conditions used in the paper are already committed under `initial_conditions/`. Run `build_inital_condition.ipynb` only to generate a fresh random set.
 
 ## 📊 Output
 
@@ -82,8 +97,6 @@ logs/summary_<timestamp>.txt
 Each pickle is a dict of per-trial lists: full state history, applied and nominal control histories, minimum and maximum inter-vehicle distance histories, minimum CBF value history, QP wall time and pure DAQP solve time, initial and final position/velocity standard deviations, the feasibility flag, and the failure reason and time.
 
 `summarize.ipynb` writes eight tables in order: feasibility, failure-reason breakdown, totals per method, position std, velocity std, control deviation `|u_qp - u_nom|`, DAQP solve time (mean / p95 / max), and the overall nominal baseline.
-
-Failure reasons are `ok`, `qp_infeasible`, `qp_iter_limit`, `qp_time_limit`, `forward_invariance_fail`, and `collision`.
 
 ## 🔧 Options
 
