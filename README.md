@@ -1,4 +1,3 @@
-
 # Finite-time Velocity Obstacle-based Control Barrier Function
 
 Safety-critical control framework for inter-vehicle collision avoidance in fixed-wing UAV flocking, built on the finite-time velocity obstacle (FVO) principle.
@@ -13,18 +12,9 @@ The ACS flocking control law (Section III.C) generates nominal inputs that pursu
 
 ## 🎥 Video Demonstration
 
-<!-- Replace VIDEO_ID below with the 11-character ID from your YouTube URL.
-     https://www.youtube.com/watch?v=dQw4w9WgXcQ  ->  VIDEO_ID = dQw4w9WgXcQ
-     https://youtu.be/dQw4w9WgXcQ                 ->  VIDEO_ID = dQw4w9WgXcQ
-     The ID appears twice: once in href, once in img src. -->
+https://github.com/user-attachments/assets/2482b74e-5fb9-4f25-b5ae-66b8550d1cbb
 
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=VIDEO_ID">
-    <img src="https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg" width="70%" alt="Video demonstration of collision-free flocking">
-  </a>
-</p>
-
-<p align="center"><i>Click the thumbnail to watch on YouTube.</i></p>
+<p align="center"><i>Comparison between the nominal ACS flocking control and the proposed FVO-CBF-based safety-critical control (N = 15).</i></p>
 
 ## 📝 Citation
 
