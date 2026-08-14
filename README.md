@@ -12,8 +12,7 @@ The ACS flocking control law (Section III.C) generates nominal inputs that pursu
 
 ## Citation
 
-C. Lee, D. Lee, and C. Kwon,
-"Collision Avoidance for Fixed-wing UAV Flocking via Finite-time Velocity Obstacle-based Control Barrier Function", IEEE Transactions on Aerospace and Electronic Systems, 2026.
+TBD
 
 ## 📂 Project Structure
 
