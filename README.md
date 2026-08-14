@@ -1,4 +1,7 @@
 # Finite-time Velocity Obstacle-based Control Barrier Function
+
+Safety-critical control framework for inter-vehicle collision avoidance in fixed-wing UAV flocking, built on the finite-time velocity obstacle (FVO) principle.
+
 ## 🗺️ Overall Architecture
 
 <p align="center">
