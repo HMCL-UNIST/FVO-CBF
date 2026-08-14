@@ -1,41 +1,61 @@
 # Finite-time Velocity Obstacle-based Control Barrier Function
 
-Simulation source code for collision avoidance in fixed-wing UAV flocking via a **Finite-time Velocity Obstacle-based Control Barrier Function (FVO-CBF)**, integrated with the augmented Cucker–Smale (ACS) flocking law under nonholonomic constraints.
+Safety-critical control framework for inter-vehicle collision avoidance in fixed-wing UAV flocking, built on the finite-time velocity obstacle (FVO) principle.
 
-**Paper:** under review.
+## 🗺️ Overall Architecture
 
-## Methods
+<p align="center">
+  <img src="figures/overall_architecture.png" width="100%" alt="Overall architecture of the proposed framework">
+</p>
 
-| Tag | Method |
-|---|---|
-| `fvo` | **FVO-CBF (proposed)** — truncated collision cone, state-dependent horizon |
-| `vo` | VO-CBF |
-| `ma` | MA-VO-CBF (slack variables) |
-| `ho` | HOCBF (distance-based) |
-| `nominal` | ACS flocking only, no CBF |
+The ACS flocking control law (Section III.C) generates nominal inputs that pursue the flocking objectives but may induce collisions. The proposed FVO-CBF-based safety-critical controller (Section IV.C) minimally modifies these inputs to guarantee collision-free flocking under the strictly positive velocity and turn-rate constraints of fixed-wing UAVs.
 
-## Experiment groups
+## Citation
 
-| Directory | Sweep | Fixed |
-|---|---|---|
-| `fvo_cbf_agent/` | `N = 5, 10, 15, 20, 25` | `R = 60 m`, `Ds = 40 m` |
-| `fvo_cbf_desired/` | `R = 60, 70, 80, 90, 100 m` | `N = 15`, `Ds = 40 m` |
-| `fvo_cbf_critical/` | `Ds = 40, 50, 60, 70, 80 m` | `N = 15`, `R = 60 m` |
+C. Lee, D. Lee, and C. Kwon,
+"Collision Avoidance for Fixed-wing UAV Flocking via Finite-time Velocity Obstacle-based Control Barrier Function", IEEE Transactions on Aerospace and Electronic Systems, 2026.
 
-100 Monte Carlo trials per case per method (5 cases × 5 methods × 100 = 2,500 runs per group).
+## 📂 Project Structure
 
-## Setup
+| File | Description |
+| --- | --- |
+| `runtime_params.ipynb` | Writes control gains and QP settings to `parameter/*.npy` |
+| `build_inital_condition.ipynb` | Generates case definitions and randomized initial conditions |
+| `summarize.ipynb` | Aggregates simulation results into tables and figures |
+| `run_agent_win.py` | Runs all case × method jobs for the agent-level group |
+| `run_desired_win.py` | Runs all case × method jobs for the desired-input group |
+| `run_critical_win.py` | Runs all case × method jobs for the critical-input group |
+| *(add your module files here, e.g. `cbf.py`, `dynamics.py`, `qp_solver.py`)* | |
+
+| Directory | Description |
+| --- | --- |
+| `fvo_cbf_agent/` | Agent-level implementation and its runner |
+| `fvo_cbf_desired/` | Desired-input variant |
+| `fvo_cbf_critical/` | Critical-input variant |
+| `parameter/` | Runtime parameters written by the notebooks |
+| `initial_conditions/` | Per-case initial states used in the paper |
+| `result/` | Simulation outputs (`.pkl`) |
+| `logs/` | Per-job logs and summary text files |
+
+## ⚙️ Environment Requirements
+
+Tested on:
+
+- Python: 3.11
+- OS: Windows (runner scripts are suffixed `_win`)
+- QP solver: [DAQP](https://github.com/darnstrom/daqp)
+
+To replicate the environment:
 
 ```bash
 conda create -n fvo python=3.11
 conda activate fvo
 pip install numpy scipy matplotlib daqp jupyter
-
 git clone https://github.com/HMCL-UNIST/Finite-time-Velocity-Obstacle-based-Control-Barrier-Function.git
 cd Finite-time-Velocity-Obstacle-based-Control-Barrier-Function/fvo_cbf_agent
 ```
 
-## Run
+## 🚀 How to Run
 
 ```bash
 # 1. Write control gains and QP settings to parameter/*.npy
@@ -50,9 +70,9 @@ python run_agent_win.py                      # in fvo_cbf_agent/
 jupyter notebook summarize.ipynb
 ```
 
-Initial conditions used in the paper are already committed under `initial_conditions/`. Run `build_inital_condition.ipynb` only to generate a fresh random set — no seed is fixed anywhere, so regenerating produces different trials and different statistics.
+The initial conditions used in the paper are already committed under `initial_conditions/`. Run `build_inital_condition.ipynb` only to generate a fresh random set — no seed is fixed anywhere, so regenerating produces different trials and different statistics.
 
-## Output
+## 📊 Output
 
 ```
 result/<case_id>/<method>/<method>_simulation_data.pkl
@@ -62,23 +82,31 @@ logs/summary_<timestamp>.txt
 
 Each pickle is a dict of per-trial lists: full state history, applied and nominal control histories, minimum and maximum inter-vehicle distance histories, minimum CBF value history, QP wall time and pure DAQP solve time, initial and final position/velocity standard deviations, the feasibility flag, and the failure reason and time.
 
-`summarize.ipynb` writes eight tables in order: feasibility, failure-reason breakdown, totals per method, position std, velocity std, control deviation `|u_qp - u_nom|`, DAQP solve time (mean / p95 / max), and the overall nominal baseline. Failure reasons are `ok`, `qp_infeasible`, `qp_iter_limit`, `qp_time_limit`, `forward_invariance_fail`, and `collision`.
+`summarize.ipynb` writes eight tables in order: feasibility, failure-reason breakdown, totals per method, position std, velocity std, control deviation `|u_qp - u_nom|`, DAQP solve time (mean / p95 / max), and the overall nominal baseline.
 
-## Options
+Failure reasons are `ok`, `qp_infeasible`, `qp_iter_limit`, `qp_time_limit`, `forward_invariance_fail`, and `collision`.
+
+## 🔧 Options
 
 Top of `run_<group>_win.py`:
 
-- `MAX_PARALLEL` — concurrent jobs (default `12`; lower for fewer cores)
-- `THREADS_PER_PROC` — keep at `"1"` to avoid CPU oversubscription
-- `METHODS` — comment out entries to run a subset
-- `RUN_SUMMARY = False` — skip the automatic summary
+| Option | Description |
+| --- | --- |
+| `MAX_PARALLEL` | Concurrent jobs (default `12`; lower for fewer cores) |
+| `THREADS_PER_PROC` | Keep at `"1"` to avoid CPU oversubscription |
+| `METHODS` | Comment out entries to run a subset |
+| `RUN_SUMMARY` | Set to `False` to skip the automatic summary |
 
 Setup cell of `summarize.ipynb`:
 
-- `CASE_FILTER = 'case0_N5'` — summarize a single case instead of all
+| Option | Description |
+| --- | --- |
+| `CASE_FILTER` | e.g. `'case0_N5'` to summarize a single case instead of all |
 
-`runtime_params.ipynb` writes `beta`, `lamda`, `k1`, `k2`, `qp_max_iter`, `qp_eps_abs`, `qp_time_limit`, and `fi_threshold`. `build_inital_condition.ipynb` writes `STATE_DIM`, `V_CONST`, `class_k1`, `class_k2`, `k_vo`, `margin`, `test_case_num`, the per-case `parameter/<case_id>/` values, `initial_conditions/<case_id>/initial.npy`, and `cases.json`. Edit its `CASES` list to define a different sweep, then Run All.
+`runtime_params.ipynb` writes `beta`, `lamda`, `k1`, `k2`, `qp_max_iter`, `qp_eps_abs`, `qp_time_limit`, and `fi_threshold`.
 
-`class_k2` is used only by `ho` and `ma`; `k_vo` only by `ma`; `nominal_flocking` loads no CBF or QP parameters at all.
+`build_inital_condition.ipynb` writes `STATE_DIM`, `V_CONST`, `class_k1`, `class_k2`, `k_vo`, `margin`, `test_case_num`, the per-case `parameter/<case_id>/` values, `initial_conditions/<case_id>/initial.npy`, and `cases.json`. Edit its `CASES` list to define a different sweep, then Run All.
 
-Sampling time (`DT_CONTROL = 0.05 s`), terminal time (`T_FINAL = 600 s`), and turn-rate limit (`u_limit = 0.35 rad/s`) are hard-coded inside `run_multi_agent_simulation()` in all five `src/*.ipynb`.
+## 🎥 Video Demonstration
+
+*Coming soon.*
