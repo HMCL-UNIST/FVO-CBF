@@ -25,9 +25,9 @@ Citation will be updated upon acceptance.
 | `runtime_params.ipynb` | Writes control gains and QP settings to `parameter/*.npy` |
 | `build_inital_condition.ipynb` | Generates case definitions and randomized initial conditions |
 | `summarize.ipynb` | Aggregates simulation results into tables and figures |
-| `run_agent_win.py` | Runs all case × method jobs for the agent-level group |
-| `run_desired_win.py` | Runs all case × method jobs for the desired-input group |
-| `run_critical_win.py` | Runs all case × method jobs for the critical-input group |
+| `run_agent_win.py` | Runs all case × method jobs for the varying number of UAVs |
+| `run_desired_win.py` | Runs all case × method jobs for the varying desired relative distances |
+| `run_critical_win.py` | Runs all case × method jobs for the varying minimum safety distances |
 
 | Directory | Description |
 | --- | --- |
