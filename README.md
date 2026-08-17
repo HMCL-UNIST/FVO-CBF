@@ -53,8 +53,8 @@ To replicate the environment:
 conda create -n fvo python=3.11
 conda activate fvo
 pip install numpy scipy matplotlib daqp jupyter
-git clone https://github.com/HMCL-UNIST/Finite-time-Velocity-Obstacle-based-Control-Barrier-Function.git
-cd Finite-time-Velocity-Obstacle-based-Control-Barrier-Function/fvo_cbf_agent
+git clone https://github.com/HMCL-UNIST/FVO-CBF.git
+cd FVO-CBF/fvo_cbf_agent
 ```
 
 ## 🚀 How to Run
