@@ -12,7 +12,7 @@ The ACS flocking control law (Section III.C) generates nominal inputs that pursu
 
 ## 🎥 Video Demonstration
 
-https://github.com/user-attachments/assets/2482b74e-5fb9-4f25-b5ae-66b8550d1cbb
+Video will be updated on Youtube
 
 ## 📝 Citation
 
