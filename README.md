@@ -34,7 +34,7 @@ Citation will be updated upon acceptance.
 | `fvo_cbf_agent/`    | Simulations with varying number of UAVs |
 | `fvo_cbf_desired/`  | Simulations with varying desired relative distance |
 | `fvo_cbf_critical/` | Simulations with varying minimum safety distance |
-| `parameter/` | Runtime parameters written by the notebooks |
+| `parameter/` | Simulation parameters |
 | `initial_conditions/` | Per-case initial states used in the paper |
 | `result/` | Simulation outputs (`.pkl`) |
 | `logs/` | Per-job logs and summary text files |
