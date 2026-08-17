@@ -31,9 +31,9 @@ Citation will be updated upon acceptance.
 
 | Directory | Description |
 | --- | --- |
-| `fvo_cbf_agent/` | Sweep over the number of UAVs |
-| `fvo_cbf_desired/` | Sweep over the desired relative distance |
-| `fvo_cbf_critical/` | Sweep over the minimum safety distance |
+| `fvo_cbf_agent/`    | Simulations with varying number of UAVs |
+| `fvo_cbf_desired/`  | Simulations with varying desired relative distance |
+| `fvo_cbf_critical/` | Simulations with varying minimum safety distance |
 | `parameter/` | Runtime parameters written by the notebooks |
 | `initial_conditions/` | Per-case initial states used in the paper |
 | `result/` | Simulation outputs (`.pkl`) |
