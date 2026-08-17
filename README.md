@@ -12,7 +12,7 @@ The ACS flocking control law (Section III.C) generates nominal inputs that pursu
 
 ## 🎥 Video Demonstration
 
-The video will be uploaded to YouTube
+The video will be uploaded to YouTube.
 
 ## 📝 Citation
 
@@ -23,17 +23,17 @@ Citation will be updated upon acceptance.
 | File | Description |
 | --- | --- |
 | `runtime_params.ipynb` | Writes control gains and QP settings to `parameter/*.npy` |
-| `build_inital_condition.ipynb` | Generates case definitions and randomized initial conditions |
+| `build_initial_condition.ipynb` | Generates case definitions and randomized initial conditions |
 | `summarize.ipynb` | Aggregates simulation results into tables and figures |
-| `run_agent_win.py` | Runs all case × method jobs for the varying number of UAVs |
-| `run_desired_win.py` | Runs all case × method jobs for the varying desired relative distances |
-| `run_critical_win.py` | Runs all case × method jobs for the varying minimum safety distances |
+| `run_agent_win.py` | Runs all case × method jobs, varying the number of UAVs |
+| `run_desired_win.py` | Runs all case × method jobs, varying the desired relative distance |
+| `run_critical_win.py` | Runs all case × method jobs, varying the minimum safety distance |
 
 | Directory | Description |
 | --- | --- |
-| `fvo_cbf_agent/` | Agent-level implementation and its runner |
-| `fvo_cbf_desired/` | Desired-input variant |
-| `fvo_cbf_critical/` | Critical-input variant |
+| `fvo_cbf_agent/` | Sweep over the number of UAVs |
+| `fvo_cbf_desired/` | Sweep over the desired relative distance |
+| `fvo_cbf_critical/` | Sweep over the minimum safety distance |
 | `parameter/` | Runtime parameters written by the notebooks |
 | `initial_conditions/` | Per-case initial states used in the paper |
 | `result/` | Simulation outputs (`.pkl`) |
@@ -72,7 +72,7 @@ python run_agent_win.py                      # in fvo_cbf_agent/
 jupyter notebook summarize.ipynb
 ```
 
-The initial conditions used in the paper are already committed under `initial_conditions/`. Run `build_inital_condition.ipynb` only to generate a fresh random set.
+The initial conditions used in the paper are already committed under `initial_conditions/`. Run `build_initial_condition.ipynb` only to generate a fresh random set.
 
 ## 📊 Output
 
@@ -103,4 +103,4 @@ Setup cell of `summarize.ipynb`:
 
 `runtime_params.ipynb` writes `beta`, `lamda`, `k1`, `k2`, `qp_max_iter`, `qp_eps_abs`, `qp_time_limit`, and `fi_threshold`.
 
-`build_inital_condition.ipynb` writes `STATE_DIM`, `V_CONST`, `class_k1`, `class_k2`, `k_vo`, `margin`, `test_case_num`, the per-case `parameter/<case_id>/` values, `initial_conditions/<case_id>/initial.npy`, and `cases.json`. Edit its `CASES` list to define a different sweep, then Run All.
+`build_initial_condition.ipynb` writes `STATE_DIM`, `V_CONST`, `class_k1`, `class_k2`, `k_vo`, `margin`, `test_case_num`, the per-case `parameter/<case_id>/` values, `initial_conditions/<case_id>/initial.npy`, and `cases.json`. Edit its `CASES` list to define a different sweep, then Run All.
