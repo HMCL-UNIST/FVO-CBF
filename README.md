@@ -28,7 +28,6 @@ Citation will be updated upon acceptance.
 | `run_agent_win.py` | Runs all case × method jobs for the agent-level group |
 | `run_desired_win.py` | Runs all case × method jobs for the desired-input group |
 | `run_critical_win.py` | Runs all case × method jobs for the critical-input group |
-| *(add your module files here, e.g. `cbf.py`, `dynamics.py`, `qp_solver.py`)* | |
 
 | Directory | Description |
 | --- | --- |
