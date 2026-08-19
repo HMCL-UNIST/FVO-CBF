@@ -12,7 +12,13 @@ The ACS flocking control law (Section III.C) generates nominal inputs that pursu
 
 ## 🎥 Video Demonstration
 
-The video will be uploaded to YouTube.
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=M7d1xUfITjE">
+    <img src="https://img.youtube.com/vi/M7d1xUfITjE/maxresdefault.jpg"
+         alt="Finite-time Velocity Obstacle-based CBF for Fixed-wing UAV Flocking"
+         width="720">
+  </a>
+</p>
 
 ## 📝 Citation
 
